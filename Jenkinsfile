@@ -13,8 +13,17 @@ pipeline {
       }
     }
     stage('Test') {
-      steps {
-        sh 'mvn test'
+      parallel {
+        stage('Test') {
+          steps {
+            sh 'mvn test'
+          }
+        }
+        stage('mail_sender') {
+          steps {
+            mail(subject: 'Changement ', body: 'heyho', from: 'jajajafa@ubuntuuu.com', to: 'zackstrife34000@gmail.com', bcc: 's')
+          }
+        }
       }
     }
     stage('Deliver') {
